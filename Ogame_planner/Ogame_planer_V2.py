@@ -22,10 +22,11 @@ def main():
     # user wird nach item gefragt
     # user gibt item an: metall/kristall
     # user gibt item an
+    handleItem()
     # user wird nach bronze(10%)/silber(20%)/gold(30%) gefragt 
     # wenn Bronze: Multiplikator 1.1; wenn silber: Multipl. 1.2; wenn gold: Multipl. 1.3 -> user gibt Stufe an
     # item + bronze/silber/gold wird angegeben
-    handleItem()
+    statusItem()
     # user wird nach Stufe Plasmatechnik gefragt
     # Die Metallproduktion steigt um 1%, die Kristallproduktion um 0,66% und die Deuteriumproduktion um 0,33% pro Ausbaustufe der Plasmatechnik. 
     # user gibt nummer der Stufe an
@@ -88,6 +89,13 @@ def handleItem():
         printErrorLimitItem()
         handleItem()
 
+def statusItem():
+    userInputSI = getUserInputSI()
+    if isValidInputSI(userInputSI):
+        printSI(userInputSI)
+    else:
+        printErrorLimitSI()
+        statusItem()
 #def handlePlasmatechnik():
     
 #def handleUniversum():
@@ -123,6 +131,9 @@ def getUserInputGeologe():
 def getUserInputItem():
     return input("Gib hier 'Metall' ein, wenn du ein Metall-Item besitzt oder 'Kristall', wenn du ein Kristall-Item besitzt:")
 
+def getUserInputSI():
+    return input("Gib hier den Status deines Items an: Bronze, Silber oder Gold:")
+
 def isValidInputMM(Stufe_Metallmine):
     if not Stufe_Metallmine.isnumeric():
         return False
@@ -147,6 +158,11 @@ def isValidInputItem(Item):
     if not Item.isalpha():
         return False
     return (str(Item) == "Metall" or str(Item) == "metall" or str(Item) == "Kristall" or str(Item) == "kristall")
+
+def isValidInputSI(StatusItem):
+    if not StatusItem.isalpha():
+        return False
+    return(str(StatusItem) == "Bronze" or str(StatusItem) == "Silber" or str(StatusItem) == "Gold")
         
 def printWelcome():
     print ("Willkommen im Ogame Kalkulator.")
@@ -169,6 +185,14 @@ def printItem(Item):
     elif str(Item) == "Kristall" or str(Item) == "kristall":
         print ("Sie haben ein Kristall-Item gewählt.")
 
+def printSI(StatusItem):
+    if str(StatusItem) == "Bronze" or str(StatusItem) == "bronze":
+        print ("Du hast ein Bronze-Item angegeben. Demnach wird die Produktion um 10 % gesteigert.")
+    elif str(StatusItem) == "Silber" or str(StatusItem) == "silber":
+        print("Du hast ein Silber-Item angegeben. Demnach wird die Produktion um 20 % gesteigert.")
+    elif str(StatusItem) == "Gold" or str(StatusItem) == "gold":
+        print("Du hast ein Gold-Item angegeben. Demnach wird die Produktion um 30 % gesteigert.")
+
 def printErrorLimitMetallMine():
     print ("Die Eingabe muss eine Zahl zwischen 1 und 100 sein und darf keine Buchstaben enthalten. ")
 
@@ -179,10 +203,13 @@ def printErrorLimitEingestellterProzentsatz():
     print ("Deine Eingabe muss eine Dezimalzahl zwischen 0.0 und 1.0 mit einer Stelle nach dem Komma enthalten. Achte auch darauf, dass du einen Punkt verwendest!")
 
 def printErrorLimitGeologe():
-    print ("Die Eingabe kann entweder 'ja' oder 'nein' sein!")
+    print ("Die Eingabe darf entweder 'ja' oder 'nein' sein!")
 
 def printErrorLimitItem():
-    print ("Die Eingabe darf entweder 'Metall' oder 'Kristall' sein.")
+    print ("Die Eingabe darf entweder 'Metall' oder 'Kristall' sein!")
+
+def printErrorLimitSI():
+    print ("Die Eingabe darf entweder 'Bronze', 'Silber' oder 'Gold' sein!")
 
 def printGoodBye():
     print ("Vielen Dank, bis zum nächsten Mal!")
