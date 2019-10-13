@@ -31,7 +31,7 @@ def main():
     # Die Metallproduktion steigt um 1%, die Kristallproduktion um 0,66% und die Deuteriumproduktion um 0,33% pro Ausbaustufe der Plasmatechnik. 
     # user gibt nummer der Stufe an
     # Stufe wird angegeben 
-    #handlePlasmatechnik()
+    handlePlasmatechnik()
     # user wird nach universum gefragt
     # user gibt universum an 
     # je nach universum wird Geschwindigkeitsfaktor angegeben (Geschwindigkeitsfaktor beträgt normalerweise 1, in den Speedwelten 2,4 oder 5)
@@ -96,7 +96,14 @@ def statusItem():
     else:
         printErrorLimitSI()
         statusItem()
-#def handlePlasmatechnik():
+
+def handlePlasmatechnik():
+    userInputPT = getUserInputPT()
+    if isValidInputPT(userInputPT):
+        printPT(userInputPT)
+    else:
+        printErrorLimitPT()
+        handlePlasmatechnik()
     
 #def handleUniversum():
 
@@ -134,6 +141,9 @@ def getUserInputItem():
 def getUserInputSI():
     return input("Gib hier den Status deines Items an: Bronze, Silber oder Gold:")
 
+def getUserInputPT():
+    return input("Gib hier die Stufe deiner Plasmatechnik an:")
+
 def isValidInputMM(Stufe_Metallmine):
     if not Stufe_Metallmine.isnumeric():
         return False
@@ -162,16 +172,21 @@ def isValidInputItem(Item):
 def isValidInputSI(StatusItem):
     if not StatusItem.isalpha():
         return False
-    return(str(StatusItem) == "Bronze" or str(StatusItem) == "Silber" or str(StatusItem) == "Gold")
+    return (str(StatusItem) == "Bronze" or str(StatusItem) == "Silber" or str(StatusItem) == "Gold")
+
+def isValidInputPT(PlasmaTechnik):                                                              #Faktoren für verschiedene Minen einbinden
+    if not PlasmaTechnik.isnumeric():
+        return False
+    return (int(PlasmaTechnik) > 0 and int(PlasmaTechnik) <= 100)
         
 def printWelcome():
     print ("Willkommen im Ogame Kalkulator.")
 
 def printMetallMine(StufeMetallMine):
-    print ("Deine aktuelle Metallmine ist Stufe " + str(StufeMetallMine)) 
+    print ("Deine aktuelle Metallmine ist auf Stufe " + str(StufeMetallMine)) 
     
 def printKristallMine(StufeKristallMine):
-    print ("Deine aktuelle Kristallmine ist Stufe " + str(StufeKristallMine))
+    print ("Deine aktuelle Kristallmine ist auf Stufe " + str(StufeKristallMine))
 
 def printEingestellterProzentsatz(EingestellterProzentsatz):
     print ("Dein aktueller eingestellter Prozentsatz beträgt " + str(EingestellterProzentsatz))
@@ -193,6 +208,9 @@ def printSI(StatusItem):
     elif str(StatusItem) == "Gold" or str(StatusItem) == "gold":
         print("Du hast ein Gold-Item angegeben. Demnach wird die Produktion um 30 % gesteigert.")
 
+def printPT(Plasmatechnik):
+    print ("Deine aktuelle Plasmatechnik ist auf Stufe " + str(Plasmatechnik))
+
 def printErrorLimitMetallMine():
     print ("Die Eingabe muss eine Zahl zwischen 1 und 100 sein und darf keine Buchstaben enthalten. ")
 
@@ -210,6 +228,9 @@ def printErrorLimitItem():
 
 def printErrorLimitSI():
     print ("Die Eingabe darf entweder 'Bronze', 'Silber' oder 'Gold' sein!")
+
+def printErrorLimitPT():
+    print ("Die Eingabe muss eine Zahl zwischen 1 und 100 sein und darf keine Buchstaben enthalten.")
 
 def printGoodBye():
     print ("Vielen Dank, bis zum nächsten Mal!")
