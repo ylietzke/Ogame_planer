@@ -35,7 +35,7 @@ def main():
     # user wird nach universum gefragt
     # user gibt universum an 
     # je nach universum wird Geschwindigkeitsfaktor angegeben (Geschwindigkeitsfaktor beträgt normalerweise 1, in den Speedwelten 2,4 oder 5)
-    #handleUniversum()
+    handleUniversum()
     # Produktion Metallmine wird berechnet => Produktion pro Stunde = ABRUNDEN(30 * STUFE * 1,1 ^ STUFE * "eingestellter Prozentsatz" * Geologe * Item + Grundproduktion) * ((100 + 1 * Stufe Plasmatechnik)/100) * Geschwindigkeitsfaktor
     # Produktion Metallmine wird angegeben
     # Energieverbrauch Metallmine wird berechnet => Energieverbrauch = AUFRUNDEN(10 * STUFE * 1,1 ^ STUFE * "eingestellter Prozentsatz")
@@ -105,7 +105,13 @@ def handlePlasmatechnik():
         printErrorLimitPT()
         handlePlasmatechnik()
     
-#def handleUniversum():
+def handleUniversum():
+    userInputUNI = getUserInputUNI()
+    if isValidInputUNI(userInputUNI):
+        printUNI(userInputUNI)
+    else:
+        printErrorLimitUNI()
+        handleUniversum()
 
 #def outputMetallmine():
 
@@ -144,6 +150,9 @@ def getUserInputSI():
 def getUserInputPT():
     return input("Gib hier die Stufe deiner Plasmatechnik an:")
 
+def getUserInputUNI():
+    return input("Gib hier den Geschwindigkeitsfaktor deines Universum an, in dem du aktuell spielst. Der Faktor der normalen Spielwelt beträgt 1. Der Faktor einer Speedwelt kann 2,4 oder 5 betragen:")
+
 def isValidInputMM(Stufe_Metallmine):
     if not Stufe_Metallmine.isnumeric():
         return False
@@ -162,7 +171,7 @@ def isValidInputEP(Eingestellter_Prozentsatz):
 def isValidInputG(Geologe):
     if not Geologe.isalpha():
         return False
-    return (str(Geologe) == "ja" or str(Geologe) == "JA" or str(Geologe) == "Ja" or str(Geologe) == "jA")                                                                     # ja = 1.1 setzen
+    return (str(Geologe) == "ja" or str(Geologe) == "JA" or str(Geologe) == "Ja" or str(Geologe) == "jA" or str(Geologe) == "nein" or str(Geologe) == "Nein" or str(Geologe) == "NEIN")                                                                     # ja = 1.1 setzen
 
 def isValidInputItem(Item):
     if not Item.isalpha():
@@ -178,6 +187,11 @@ def isValidInputPT(PlasmaTechnik):                                              
     if not PlasmaTechnik.isnumeric():
         return False
     return (int(PlasmaTechnik) > 0 and int(PlasmaTechnik) <= 100)
+
+def isValidInputUNI(Universum):
+    if not Universum.isnumeric():
+        return False
+    return (int(Universum) == "1" or int(Universum) == "2" or int(Universum) == "4" or int(Universum) == "5")
         
 def printWelcome():
     print ("Willkommen im Ogame Kalkulator.")
@@ -191,8 +205,11 @@ def printKristallMine(StufeKristallMine):
 def printEingestellterProzentsatz(EingestellterProzentsatz):
     print ("Dein aktueller eingestellter Prozentsatz beträgt " + str(EingestellterProzentsatz))
     
-def printGeologe(GeologeJa):
-    print ("Der durch den Geologen zugeführte Multiplikator beträgt " + "1.1")
+def printGeologe(Geologe):
+    if str(Geologe) == "ja" or str(Geologe) == "JA" or str(Geologe) == "Ja" or str(Geologe) == "jA":
+        print ("Der durch den Geologen zugeführte Multiplikator beträgt " + "1.1")
+    elif str(Geologe) == "nein" or str(Geologe) == "Nein" or str(Geologe) == "NEIN":
+        print ("Der durch den Geologen zugeführte Multiplikator beträgt " + "0")
 
 def printItem(Item):
     if str(Item) == "Metall" or str(Item) == "metall":
@@ -210,6 +227,16 @@ def printSI(StatusItem):
 
 def printPT(Plasmatechnik):
     print ("Deine aktuelle Plasmatechnik ist auf Stufe " + str(Plasmatechnik))
+
+def printUNI(UniVersum):
+    if int(UniVersum) == "1" or str(UniVersum) == "eins" or str(UniVersum) == "Eins":
+        print ("Der Geschwindigkeitsfaktor deines aktuellen Universums beträgt 1")
+    elif int(UniVersum) == "2" or str(UniVersum) == "zwei" or str(UniVersum) == "Zwei":
+        print ("Der Geschwindigkeitsfaktor deines aktuellen Universums beträgt 2") 
+    elif int(UniVersum) == "4" or str(UniVersum) == "vier" or str(UniVersum) == "Vier":
+        print ("Der Geschwindigkeitsfaktor deines aktuellen Universums beträgt 4")  
+    elif int(UniVersum) == "5" or str(UniVersum) == "fünf" or str(UniVersum) == "Fünf":
+        print ("Der Geschwindigkeitsfaktor deines aktuellen Universums beträgt 5")
 
 def printErrorLimitMetallMine():
     print ("Die Eingabe muss eine Zahl zwischen 1 und 100 sein und darf keine Buchstaben enthalten. ")
@@ -231,6 +258,9 @@ def printErrorLimitSI():
 
 def printErrorLimitPT():
     print ("Die Eingabe muss eine Zahl zwischen 1 und 100 sein und darf keine Buchstaben enthalten.")
+
+def printErrorLimitUNI():
+    print ("Die Eingabe muss 1, 2, 4 oder 5 sein.")
 
 def printGoodBye():
     print ("Vielen Dank, bis zum nächsten Mal!")
